@@ -1,48 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movieverse</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="container">
-        <!-- header -->
-        <header class="navbar">
-            <h1 class="logo">MovieVerse</h1>
-            <input type="text" name="movie" placeholder="search movies">
-            <button type="submit">Search</button>
 
+<body>
+    <!-- header -->
+    <header>
+        <div class="navbar">
+            <h1 class="logo">MovieVerse</h1>
+            <div class="search-container">
+                <img src="assets/icons/search.svg" alt="search-icon" class="search-icon">
+                <input type="text" name="movie" placeholder="Search for movies, TV shows...">
+            </div>
 
             <button type="button" class="toggle-button">☀️</button>
-        </header>
-
-        <section class="genre">
-            <span><button>All</button></span>
-            <span><button>Adventure</button></span>
-            <span><button>Action</button></span>
-            <span><button>Romance</button></span>
-            <span><button>Comedy</button></span>
-            <span><button>Drama</button></span>
-            <span><button>Fantasy</button></span>
-            <span><button>Horror</button></span>
-            <span><button>Sci-fi</button></span>
-        </section>
-
-
-        <!-- hero -->
-         <main>
-            <div class="movie-container">
-                
-            </div>
+        </div>
         
-         </main>
-         <footer>
-            <p>© 2026 MovieVerse</p>
-            <p>Made with ❤️ by Niraj</p>
-         </footer>
-    </div>
+        <section>
+            <div class="genres">
+                <button>All</button>
+                <button>Adventure</button>
+                <button>Action</button>
+                <button>Romance</button>
+                <button>Comedy</button>
+                <button>Drama</button>
+                <button>Fantasy</button>
+                <button>Horror</button>
+                <button>Sci-fi</button>
+            </div>
+        </section>
+    </header>
+        
+    <!-- hero section -->
+    <main>
+        <div class="hero">
+            <h1>Discover Cinema</h1>
+            <p>Search millions of movies, series and episodes from the world's largest film database.</p>
+        </div>
+    </main>
+
+    <!-- movie card -->
+    <section>
+        <div id="movie-container">
+            <div class="card">
+                <div class="poster-wrapper">
+                    <img src="assets/images/images.jpg" alt="Spider-Man" class="poster">
+                    <p class="badge">Movie</p>
+                </div>
+
+                <div class="movie-info">
+                    <h3>Spider-Man</h3>
+                    <p></p>
+                    <p>2022</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- footer section-->
+    <!-- <footer>
+        <p>© 2026 MovieVerse</p>
+        <p>Made with ❤️ by Niraj</p>
+    </footer> -->
     <script src="js/app.js"></script>
 </body>
+
 </html>
