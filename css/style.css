@@ -55,7 +55,7 @@ header{
     min-width: 0;
 }
 
-.search-container input{
+#search-input{
     width: 100%;
     background: transparent;
     font-size: 0.9rem;
@@ -170,7 +170,6 @@ header{
     background: var(--header-bg);
     opacity: 0.7;
     font-size: small;
-    font-weight: 800;
 }
 .movie-info{
     padding: 12px;
