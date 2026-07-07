@@ -3,20 +3,21 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const POPULAR_MOVIES = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const SEARCH_URL = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=`;
+const GENRE_URL = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=`;
 
 
 const movieContainer = document.getElementById("movie-container");
 const searchInput = document.getElementById("search-input");
+const genresButtons = document.querySelectorAll(".genres-btn");
 
 async function getPopularMovies() {
     try {
         let response = await fetch(POPULAR_MOVIES);
         let data = await response.json();
-
         displayMovies(data.results);
     }
     catch (err) {
-        console.log(err);
+        displayMovies(err);
     }
 }
 
@@ -44,26 +45,56 @@ function displayMovies(movies) {
     });
 }
 
+// working of search bar 
 searchInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
         let query = searchInput.value.trim();
-        if(query ===""){
-            getPopularMovies(); 
+        if (query === "") {
+            getPopularMovies();
         }
-        else{
+        else {
             searchMovies(query);
         }
     }
 })
+
 async function searchMovies(query) {
-    console.log(SEARCH_URL + query);
     try {
         let response = await fetch(SEARCH_URL + query);
         let data = await response.json();
 
+        displayMovies(data.results);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
+// button filtering
+genresButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        let genreId = button.dataset.id;
+        if (genreId === "all") {
+            getPopularMovies();
+        }
+        else {
+            getMovieByGenre(genreId);
+        }
+
+        genresButtons.forEach((btn) => {
+            btn.classList.remove("active");
+        });
+        button.classList.add("active");     
+    })
+});
+
+async function getMovieByGenre(genreId) {
+    try {
+        let response = await fetch(GENRE_URL + genreId);
+        let data = await response.json();
 
         displayMovies(data.results);
-
     }
     catch (err) {
         console.log(err);
