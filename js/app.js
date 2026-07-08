@@ -4,11 +4,13 @@ const POPULAR_MOVIES = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const SEARCH_URL = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=`;
 const GENRE_URL = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=`;
-
+const MOVIE_DETAILS_URL = `${BASE_URL}/movie/`;
 
 const movieContainer = document.getElementById("movie-container");
 const searchInput = document.getElementById("search-input");
 const genresButtons = document.querySelectorAll(".genres-btn");
+const modelOverlay = document.querySelector(".model-overlay");
+const closeBtn =document.querySelector(".close-btn");
 
 async function getPopularMovies() {
     try {
@@ -28,7 +30,7 @@ function displayMovies(movies) {
     movieContainer.innerHTML = "";
     movies.forEach((movie) => {
         const card = `
-            <div class="card">
+            <div class="card" data-id="${movie.id}">
                 <div class="poster-wrapper">
                     <img src="${IMAGE_URL}${movie.poster_path}" alt="${movie.title}}" class="poster">
                     <p class="badge">Movie</p>
@@ -43,7 +45,29 @@ function displayMovies(movies) {
         `;
         movieContainer.innerHTML += card;
     });
+    // movie detailed
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            let movieId = card.dataset.id;
+           getMvoieDetails(movieId);
+        })
+    });
 }
+ 
+async function getMvoieDetails(movieId) {
+    try{
+        let response = await fetch(MOVIE_DETAILS_URL + movieId + `?api_key=${API_KEY}`);
+        
+        let data = await response.json();
+    
+        console.log(data);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
 
 // working of search bar 
 searchInput.addEventListener("keydown", (e) => {
@@ -85,7 +109,7 @@ genresButtons.forEach((button) => {
         genresButtons.forEach((btn) => {
             btn.classList.remove("active");
         });
-        button.classList.add("active");     
+        button.classList.add("active");
     })
 });
 
