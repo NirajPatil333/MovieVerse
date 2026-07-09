@@ -9,8 +9,15 @@ const MOVIE_DETAILS_URL = `${BASE_URL}/movie/`;
 const movieContainer = document.getElementById("movie-container");
 const searchInput = document.getElementById("search-input");
 const genresButtons = document.querySelectorAll(".genres-btn");
-const modelOverlay = document.querySelector(".model-overlay");
+const modalOverlay = document.querySelector(".modal-overlay");
 const closeBtn =document.querySelector(".close-btn");
+
+const modalTitle = document.querySelector("#modal-title");
+const modalPoster = document.querySelector("#modal-poster");
+const modalRating = document.querySelector("#modal-rating");
+const modalGenres = document.querySelector("#modal-genres");
+const modalOverview = document.querySelector("#modal-overview");
+const modalRelease = document.querySelector("#modal-release");
 
 async function getPopularMovies() {
     try {
@@ -62,6 +69,11 @@ async function getMvoieDetails(movieId) {
         let data = await response.json();
     
         console.log(data);
+
+        modalOverlay.style.display = "flex";
+        modalTitle.textContent = data.title;
+        modalGenres.textContent = data.genre[0] ;
+        modalOverview.textContent = data.overview;
     }
     catch (err) {
         console.log(err);
@@ -124,3 +136,4 @@ async function getMovieByGenre(genreId) {
         console.log(err);
     }
 }
+

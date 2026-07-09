@@ -192,15 +192,76 @@ header{
 
 
 /* mocie details */
-.model-overlay{
-    background-color: #0b5ed7;
+.modal-overlay{
     display: none;
     position: fixed;
     inset: 0;
-     background: rgba(0, 0, 0, 0.7);
-     justify-content: center;
-     align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
+
+.movie-modal{
+    background: var(--header-bg);
+    width: 900px;
+    min-width: 90%;
+    max-height: 80vh;
+    border-radius: 15px;
+    padding: 10px;
+    position: relative;
+    overflow-y: auto;
+}
+.close-btn{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 1.5rem;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+.close-btn:hover{
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.movie-content{
+    display: flex;
+    gap: 30px;
+}
+
+.movie-left img {
+    width: 250px;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.4);
+}
+.movie-info{
+    color: #B5B5B5;
+}
+.movie-info span{
+    font-size: 2.3rem;
+    font-weight: 800;
+}
+.movie-info h2 ,p{
+    margin-bottom: 10px;
+} 
+.movie-info p ,h3{
+    font-size: 1.2rem;
+}
+.movie-info span , h2{
+    color: var(--text-color);
+}
+
+
+
+
 @media (max-width: 768px){
     .navbar{
         gap: 1rem;
