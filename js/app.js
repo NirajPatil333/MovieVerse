@@ -10,7 +10,7 @@ const movieContainer = document.getElementById("movie-container");
 const searchInput = document.getElementById("search-input");
 const genresButtons = document.querySelectorAll(".genres-btn");
 const modalOverlay = document.querySelector(".modal-overlay");
-const closeBtn =document.querySelector(".close-btn");
+const closeBtn = document.querySelector(".close-btn");
 
 const modalTitle = document.querySelector("#modal-title");
 const modalPoster = document.querySelector("#modal-poster");
@@ -57,23 +57,28 @@ function displayMovies(movies) {
     cards.forEach((card) => {
         card.addEventListener("click", () => {
             let movieId = card.dataset.id;
-           getMvoieDetails(movieId);
+            getMvoieDetails(movieId);
         })
     });
 }
- 
+
 async function getMvoieDetails(movieId) {
-    try{
+    try {
         let response = await fetch(MOVIE_DETAILS_URL + movieId + `?api_key=${API_KEY}`);
-        
+
         let data = await response.json();
-    
-        console.log(data);
 
         modalOverlay.style.display = "flex";
         modalTitle.textContent = data.title;
-        modalGenres.textContent = data.genre[0] ;
         modalOverview.textContent = data.overview;
+        modalRelease.textContent = data.release_date  +  data.runtime;
+        modalPoster.src = IMAGE_URL + data.poster_path;
+
+        const genres = data.genres.map((genre) => {
+            return genre.name;
+            }).join(" • ");
+        modalGenres.textContent = genres;   
+        
     }
     catch (err) {
         console.log(err);
