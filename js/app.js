@@ -5,12 +5,14 @@ const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const SEARCH_URL = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=`;
 const GENRE_URL = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=`;
 const MOVIE_DETAILS_URL = `${BASE_URL}/movie/`;
+const CREDITS_URL = `${BASE_URL}/movie/`;
 
 const movieContainer = document.getElementById("movie-container");
 const searchInput = document.getElementById("search-input");
 const genresButtons = document.querySelectorAll(".genres-btn");
 const modalOverlay = document.querySelector(".modal-overlay");
 const closeBtn = document.querySelector(".close-btn");
+const movieModal = document.querySelector(".movie-modal");
 
 const modalTitle = document.querySelector("#modal-title");
 const modalPoster = document.querySelector("#modal-poster");
@@ -18,6 +20,10 @@ const modalRating = document.querySelector("#modal-rating");
 const modalGenres = document.querySelector("#modal-genres");
 const modalOverview = document.querySelector("#modal-overview");
 const modalRelease = document.querySelector("#modal-release");
+const modalRuntime = document.querySelector("#modal-runtime");
+const modalLanguage = document.querySelector("#modal-language");
+const modalDirector = document.querySelector("#modal-director");
+const modalCast = document.querySelector("#modal-cast");
 
 async function getPopularMovies() {
     try {
@@ -57,35 +63,69 @@ function displayMovies(movies) {
     cards.forEach((card) => {
         card.addEventListener("click", () => {
             let movieId = card.dataset.id;
-            getMvoieDetails(movieId);
+            getMovieDetails(movieId);
         })
     });
 }
 
-async function getMvoieDetails(movieId) {
+async function getMovieDetails(movieId) {
     try {
         let response = await fetch(MOVIE_DETAILS_URL + movieId + `?api_key=${API_KEY}`);
 
         let data = await response.json();
-
         modalOverlay.style.display = "flex";
+
         modalTitle.textContent = data.title;
-        modalOverview.textContent = data.overview;
-        modalRelease.textContent = data.release_date  +  data.runtime;
         modalPoster.src = IMAGE_URL + data.poster_path;
+        modalOverview.textContent = data.overview;
+        modalRelease.textContent = data.release_date;
+        modalRuntime.textContent = `${data.runtime} min`;
+        modalLanguage.textContent = data.spoken_languages[0].english_name;
 
         const genres = data.genres.map((genre) => {
             return genre.name;
-            }).join(" • ");
-        modalGenres.textContent = genres;   
-        
+        }).join(" • ");
+        modalGenres.textContent = genres;
+
+        getMovieCredits(movieId);
     }
     catch (err) {
         console.log(err);
     }
 }
 
+// for credits 
+async function getMovieCredits(movieId) {
+    try {
+        let response = await fetch(CREDITS_URL + movieId + `/credits` + `?api_key=${API_KEY}`);
+        let data = await response.json();
 
+        const director = data.crew.find((person)=>{
+            return person.job === "Director";
+        })
+        modalDirector.textContent = director.name;   
+
+        const crew = data.cast.slice(0,3).map((actor) =>{
+            return actor.name;
+        }).join(", ");
+        modalCast.textContent = crew;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+closeBtn.addEventListener("click" , ()=>{
+     modalOverlay.style.display = "none";
+});
+
+modalOverlay.addEventListener("click" , (event)=>{
+    if(event.target === modalOverlay){
+        modalOverlay.style.display = "none";
+    }
+    else{
+        modalOverlay.style.display = "flex";
+    }
+});
 // working of search bar 
 searchInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
