@@ -9,9 +9,21 @@
      --header-bg: #181818;
      --shadow: rgba(0, 0, 0, 0.1);
      --gradient: linear-gradient(135deg, #1cb5e0 0%, #0b5ed7 50%, #1a237e 100%);
-     /* --button-bg:#007bff; */
+     --genre-bg: #000000;
      --accent-color: #ffd438;
      --border-color: #b3b3b3;
+     --modal-color: #a19f9f;
+ }
+
+ body.light {
+     --bg-color: #f5f5f5;
+     --text-color: #111111;
+     --header-bg: #ffffff;
+     --shadow: rgba(0, 0, 0, 0.1);
+     --genre-bg: #ececec;
+     --accent-color: #ffd438;
+     --border-color: #d1d5db;
+     --modal-color: #3d3d3d;
  }
 
  body {
@@ -48,7 +60,7 @@
      display: flex;
      align-items: center;
      gap: 10px;
-     background: #111;
+     background: var(--header-bg);
      flex-grow: 1;
      padding: 10px 15px;
      border: 1px solid var(--border-color);
@@ -66,6 +78,10 @@
      color: var(--text-color);
  }
 
+ .search-input::placeholder {
+     color: var(--border-color);
+ }
+
  .search-container:focus-within {
      border-color: var(--accent-color);
      box-shadow: 0 0 10px rgba(255, 212, 59, 0.25);
@@ -78,7 +94,7 @@
  }
 
  .toggle-button {
-     font-size: 1rem;
+     font-size: 1.3rem;
      background-color: var(--bg-color);
      border: 1px solid gray;
      border-radius: 30%;
@@ -107,7 +123,7 @@
      padding: 8px 10px;
      font-size: 1rem;
      border-radius: 20px;
-     background: #111;
+     background: var(--genre-bg);
      color: var(--text-color);
      border: 1px solid var(--border-color);
      opacity: 0.7;
@@ -121,7 +137,7 @@
  .active {
      background-color: var(--accent-color);
      opacity: 1;
-     color: #111;
+     color: var(--bg-color);
  }
 
  /* Hero section */
@@ -150,7 +166,7 @@
 
  .card {
      background: var(--bg-color);
-     border: 1px solid var(--header-bg);
+     border: 1px solid var(--text-color);
      border-radius: 15px;
      overflow: hidden;
      cursor: pointer;
@@ -182,7 +198,7 @@
      border-radius: 5px;
      background: var(--header-bg);
      opacity: 0.7;
-     font-size: small;
+     font-size: 0.9rem;
  }
 
  .movie-info {
@@ -190,14 +206,18 @@
  }
 
  .movie-info h3 {
-     font-size: 14px;
+     font-size: 1rem;
      font-weight: 800;
      white-space: nowrap;
      overflow: hidden;
      text-overflow: ellipsis;
      margin-bottom: 15px;
+     color: var(--text-color);
  }
 
+ .movie-info p {
+     color: var(--text-color);
+ }
 
  /* mocie details */
  .modal-overlay {
@@ -226,7 +246,7 @@
      right: 20px;
      top: 20px;
      font-size: 1.5rem;
-     border: none;
+     border: 1px solid var(--text-color);
      width: 30px;
      height: 30px;
      border-radius: 50%;
@@ -254,7 +274,7 @@
  }
 
  .movie-info {
-     color: #B5B5B5;
+     color: var(--modal-color);
  }
 
  .movie-info span {
@@ -284,17 +304,23 @@
  }
 
  .movie-data span {
-     font-size: 1.2rem;
+     font-size: 1rem;
      margin-bottom: 10px;
-     color: var(--text-color);
- }
- #modal-overview{
-    margin-top: 15px;
-    line-height: 1.7;
+     color: var(--modal-color);
  }
 
- .movie-info h2{
-    margin: 15px 0 7px 0;
+ .movie-info p {
+     color: var(--modal-color);
+ }
+
+ #modal-overview {
+     margin-top: 15px;
+     line-height: 1.7;
+ }
+
+ .movie-info h2 {
+     font-size: 1.3rem;
+     margin: 15px 0 7px 0;
  }
 
 

@@ -100,12 +100,12 @@ async function getMovieCredits(movieId) {
         let response = await fetch(CREDITS_URL + movieId + `/credits` + `?api_key=${API_KEY}`);
         let data = await response.json();
 
-        const director = data.crew.find((person)=>{
+        const director = data.crew.find((person) => {
             return person.job === "Director";
         })
-        modalDirector.textContent = director.name;   
+        modalDirector.textContent = director.name;
 
-        const crew = data.cast.slice(0,3).map((actor) =>{
+        const crew = data.cast.slice(0, 3).map((actor) => {
             return actor.name;
         }).join(", ");
         modalCast.textContent = crew;
@@ -114,16 +114,13 @@ async function getMovieCredits(movieId) {
     }
 }
 
-closeBtn.addEventListener("click" , ()=>{
-     modalOverlay.style.display = "none";
+closeBtn.addEventListener("click", () => {
+    modalOverlay.style.display = "none";
 });
 
-modalOverlay.addEventListener("click" , (event)=>{
-    if(event.target === modalOverlay){
+modalOverlay.addEventListener("click", (event) => {
+    if (event.target === modalOverlay) {
         modalOverlay.style.display = "none";
-    }
-    else{
-        modalOverlay.style.display = "flex";
     }
 });
 // working of search bar 
@@ -182,3 +179,26 @@ async function getMovieByGenre(genreId) {
     }
 }
 
+// toggle theme
+const toggleBtn = document.querySelector(".toggle-button");
+
+
+let currmode = localStorage.getItem("theme") || "dark";
+
+if (currmode === "light") {
+    document.body.classList.add("light");
+}
+toggleBtn.addEventListener("click" , () => {
+    if( currmode === "dark"){
+        currmode = "light";
+        document.body.classList.add("light");
+        localStorage.setItem("theme" , "light");
+        toggleBtn.innerText = "🌙";
+    }
+    else{
+        currmode = "dark";
+        document. body.classList.remove("light");
+        localStorage.setItem("theme" , "dark");
+        toggleBtn.innerText ="☀️";
+    }
+});
