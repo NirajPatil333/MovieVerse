@@ -24,18 +24,21 @@ const modalRuntime = document.querySelector("#modal-runtime");
 const modalLanguage = document.querySelector("#modal-language");
 const modalDirector = document.querySelector("#modal-director");
 const modalCast = document.querySelector("#modal-cast");
+const noResult = document.querySelector(".no-result");
+const Hero = document.querySelector(".hero");
 
 async function getPopularMovies() {
     try {
         let response = await fetch(POPULAR_MOVIES);
         let data = await response.json();
+
         displayMovies(data.results);
+
     }
     catch (err) {
         displayMovies(err);
     }
 }
-
 getPopularMovies();
 
 // display movie 
@@ -123,6 +126,8 @@ modalOverlay.addEventListener("click", (event) => {
         modalOverlay.style.display = "none";
     }
 });
+
+
 // working of search bar 
 searchInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
@@ -141,7 +146,16 @@ async function searchMovies(query) {
         let response = await fetch(SEARCH_URL + query);
         let data = await response.json();
 
-        displayMovies(data.results);
+        if (data.results.length === 0) {
+            movieContainer.innerHTML = "";
+            noResult.style.display = "block";
+            Hero.style.display = "none";
+        }
+        else {
+            noResult.style.display = "none";
+            displayMovies(data.results);
+        }
+
     }
     catch (err) {
         console.log(err);
@@ -188,17 +202,17 @@ let currmode = localStorage.getItem("theme") || "dark";
 if (currmode === "light") {
     document.body.classList.add("light");
 }
-toggleBtn.addEventListener("click" , () => {
-    if( currmode === "dark"){
+toggleBtn.addEventListener("click", () => {
+    if (currmode === "dark") {
         currmode = "light";
         document.body.classList.add("light");
-        localStorage.setItem("theme" , "light");
+        localStorage.setItem("theme", "light");
         toggleBtn.innerText = "🌙";
     }
-    else{
+    else {
         currmode = "dark";
-        document. body.classList.remove("light");
-        localStorage.setItem("theme" , "dark");
-        toggleBtn.innerText ="☀️";
+        document.body.classList.remove("light");
+        localStorage.setItem("theme", "dark");
+        toggleBtn.innerText = "☀️";
     }
 });

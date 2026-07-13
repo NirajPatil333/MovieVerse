@@ -322,7 +322,13 @@
      font-size: 1.3rem;
      margin: 15px 0 7px 0;
  }
-
+ /* no result  */
+ .no-result{
+    display: none;
+    text-align: center;
+    font-size: 2rem;
+    padding: 1.4rem;
+ }
 
  @media (max-width: 768px) {
      .navbar {
