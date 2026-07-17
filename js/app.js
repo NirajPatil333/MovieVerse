@@ -26,6 +26,7 @@ const modalDirector = document.querySelector("#modal-director");
 const modalCast = document.querySelector("#modal-cast");
 const noResult = document.querySelector(".no-result");
 const Hero = document.querySelector(".hero");
+const movieContent = document.querySelector(".movie-content");
 
 async function getPopularMovies() {
     try {
@@ -78,6 +79,10 @@ async function getMovieDetails(movieId) {
         let data = await response.json();
         modalOverlay.style.display = "flex";
 
+        setTimeout(() => {
+            movieContent.classList.add("show");
+        }, 30);
+
         modalTitle.textContent = data.title;
         modalPoster.src = IMAGE_URL + data.poster_path;
         modalOverview.textContent = data.overview;
@@ -118,12 +123,25 @@ async function getMovieCredits(movieId) {
 }
 
 closeBtn.addEventListener("click", () => {
-    modalOverlay.style.display = "none";
+    movieContent.classList.remove("show");
+    alert("clicked");
+
+    setTimeout(() => {
+        modalOverlay.style.display = "none";
+    }, 300);
+
 });
+closeBtn.onclick = () => {
+    alert("clicked");
+};
 
 modalOverlay.addEventListener("click", (event) => {
     if (event.target === modalOverlay) {
-        modalOverlay.style.display = "none";
+        movieContent.classList.remove("show");
+
+        setTimeout(() => {
+            modalOverlay.style.display = "none";
+        }, 300);
     }
 });
 
