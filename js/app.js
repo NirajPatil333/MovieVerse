@@ -27,17 +27,22 @@ const modalCast = document.querySelector("#modal-cast");
 const noResult = document.querySelector(".no-result");
 const Hero = document.querySelector(".hero");
 const movieContent = document.querySelector(".movie-content");
+const loader = document.querySelector(".loader")
 
 async function getPopularMovies() {
     try {
+        showLoader();
         let response = await fetch(POPULAR_MOVIES);
         let data = await response.json();
 
         displayMovies(data.results);
-
+        
     }
     catch (err) {
         displayMovies(err);
+    }
+    finally{
+        hideLoader();
     }
 }
 getPopularMovies();
@@ -46,10 +51,11 @@ getPopularMovies();
 function displayMovies(movies) {
     movieContainer.innerHTML = "";
     movies.forEach((movie) => {
+        const poster = movie.poster_path ? IMAGE_URL + movie.poster_path : "assets/images/no-poster.jpg";
         const card = `
             <div class="card" data-id="${movie.id}">
                 <div class="poster-wrapper">
-                    <img src="${IMAGE_URL}${movie.poster_path}" alt="${movie.title}}" class="poster">
+                    <img src="${poster}" alt="${movie.title}}" class="poster">
                     <p class="badge">Movie</p>
                 </div>
 
@@ -74,6 +80,7 @@ function displayMovies(movies) {
 
 async function getMovieDetails(movieId) {
     try {
+    
         let response = await fetch(MOVIE_DETAILS_URL + movieId + `?api_key=${API_KEY}`);
 
         let data = await response.json();
@@ -83,8 +90,9 @@ async function getMovieDetails(movieId) {
             movieContent.classList.add("show");
         }, 30);
 
+        const poster = data.poster_path ? IMAGE_URL + data.poster_path : "assets/images/no-poster.jpg";
+        modalPoster.src = poster;
         modalTitle.textContent = data.title;
-        modalPoster.src = IMAGE_URL + data.poster_path;
         modalOverview.textContent = data.overview;
         modalRelease.textContent = data.release_date;
         modalRuntime.textContent = `${data.runtime} min`;
@@ -96,6 +104,7 @@ async function getMovieDetails(movieId) {
         modalGenres.textContent = genres;
 
         getMovieCredits(movieId);
+
     }
     catch (err) {
         console.log(err);
@@ -124,16 +133,12 @@ async function getMovieCredits(movieId) {
 
 closeBtn.addEventListener("click", () => {
     movieContent.classList.remove("show");
-    alert("clicked");
 
     setTimeout(() => {
         modalOverlay.style.display = "none";
     }, 300);
 
 });
-closeBtn.onclick = () => {
-    alert("clicked");
-};
 
 modalOverlay.addEventListener("click", (event) => {
     if (event.target === modalOverlay) {
@@ -161,6 +166,7 @@ searchInput.addEventListener("keydown", (e) => {
 
 async function searchMovies(query) {
     try {
+        showLoader();
         let response = await fetch(SEARCH_URL + query);
         let data = await response.json();
 
@@ -173,10 +179,12 @@ async function searchMovies(query) {
             noResult.style.display = "none";
             displayMovies(data.results);
         }
-
     }
     catch (err) {
         console.log(err);
+    }
+    finally{
+        hideLoader();
     }
 }
 
@@ -200,6 +208,7 @@ genresButtons.forEach((button) => {
 });
 
 async function getMovieByGenre(genreId) {
+    showLoader();
     try {
         let response = await fetch(GENRE_URL + genreId);
         let data = await response.json();
@@ -209,7 +218,20 @@ async function getMovieByGenre(genreId) {
     catch (err) {
         console.log(err);
     }
+    finally{
+        hideLoader();
+    }
 }
+
+// loader
+function showLoader(){
+        loader.style.display = "flex";
+        movieContainer.innerHTML = "";
+}
+function hideLoader(){
+        loader.style.display = "none";
+}
+
 
 // toggle theme
 const toggleBtn = document.querySelector(".toggle-button");
