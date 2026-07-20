@@ -93,6 +93,20 @@
      opacity: 0.8;
  }
 
+ #search-btn{
+    height: 1.6rem;
+    width: 2.3rem;
+    border: none;
+    border-radius: 30%;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: var(--accent-color);
+    color: #111111;
+    transition: 0.3s;
+ }
+ #search-btn:hover{
+    transform: scale(1.1);
+ }
  .toggle-button {
      font-size: 1.3rem;
      background-color: var(--bg-color);

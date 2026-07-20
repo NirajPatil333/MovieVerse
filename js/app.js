@@ -28,6 +28,8 @@ const noResult = document.querySelector(".no-result");
 const Hero = document.querySelector(".hero");
 const movieContent = document.querySelector(".movie-content");
 const loader = document.querySelector(".loader")
+const searchBtn = document.querySelector("#search-btn");
+
 
 async function getPopularMovies() {
     try {
@@ -36,12 +38,16 @@ async function getPopularMovies() {
         let data = await response.json();
 
         displayMovies(data.results);
-        
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
     }
     catch (err) {
         displayMovies(err);
     }
-    finally{
+    finally {
         hideLoader();
     }
 }
@@ -80,7 +86,7 @@ function displayMovies(movies) {
 
 async function getMovieDetails(movieId) {
     try {
-    
+
         let response = await fetch(MOVIE_DETAILS_URL + movieId + `?api_key=${API_KEY}`);
 
         let data = await response.json();
@@ -154,14 +160,22 @@ modalOverlay.addEventListener("click", (event) => {
 // working of search bar 
 searchInput.addEventListener("keydown", (e) => {
     if (e.key == "Enter") {
-        let query = searchInput.value.trim();
-        if (query === "") {
-            getPopularMovies();
-        }
-        else {
-            searchMovies(query);
-        }
+        handleSearchBtn();
     }
+})
+
+function handleSearchBtn() {
+    let query = searchInput.value.trim();
+
+    if (query === "") {
+        getPopularMovies();
+    } else {
+        searchMovies(query);
+    }
+}
+
+searchBtn.addEventListener("click",() =>{
+    handleSearchBtn();
 })
 
 async function searchMovies(query) {
@@ -179,11 +193,16 @@ async function searchMovies(query) {
             noResult.style.display = "none";
             displayMovies(data.results);
         }
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
     }
     catch (err) {
         console.log(err);
     }
-    finally{
+    finally {
         hideLoader();
     }
 }
@@ -214,22 +233,27 @@ async function getMovieByGenre(genreId) {
         let data = await response.json();
 
         displayMovies(data.results);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
     }
     catch (err) {
         console.log(err);
     }
-    finally{
+    finally {
         hideLoader();
     }
 }
 
 // loader
-function showLoader(){
-        loader.style.display = "flex";
-        movieContainer.innerHTML = "";
+function showLoader() {
+    loader.style.display = "flex";
+    movieContainer.innerHTML = "";
 }
-function hideLoader(){
-        loader.style.display = "none";
+function hideLoader() {
+    loader.style.display = "none";
 }
 
 
